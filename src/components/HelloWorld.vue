@@ -2,7 +2,7 @@
     <div class="wrap">
         <itemarea ref="item"/>
         <formarea ref="formarea" @edit="editBefore($event)"/>
-        <editarea :data="data" @Delete="handleDelete" @Cancel="handleCancel"/>
+        <editarea :ItemData="data" :defaultItemData="defaultData" @Delete="handleDelete" @Cancel="handleCancel" @Save="handleSave"/>
     </div>
 </template>
 
@@ -10,6 +10,7 @@
 import itemarea from "./Item"
 import formarea from "./Form"
 import editarea from "./Edit"
+import _ from "lodash"
 export default {
   name: 'HelloWorld',
   components:{itemarea,formarea,editarea},
@@ -17,21 +18,42 @@ export default {
     return{
       inner:false,
       data:null,
+      defaultData:null,
     }
   },
   methods:{
-     editBefore(index){
-       this.data = this.$refs.formarea.itemArr[index] 
-        console.log(this.data)
+    // 编辑前的准备工作
+     editBefore(id){
+        const index = this.$refs.formarea.itemArr.findIndex(item => item.id === id)
+        this.data = this.$refs.formarea.itemArr[index] 
+        this.defaultData =  _.cloneDeep(this.data)
      },
+     // 编辑后的操作
+     editAfter(){
+        this.$refs.formarea.Edit = null 
+        this.data = null 
+        this.defaultData = null 
+     },
+    //  删除
      handleDelete(){
         this.$refs.formarea.handleDelete()
-        this.$refs.formarea.EditIndex = null
+        this.editAfter()
      },
+    //  取消保存
      handleCancel(){
-       this.$refs.formarea.EditIndex = null
-       this.data = null
-     }
+       const id = this.$refs.formarea.EditId 
+       const index = this.$refs.formarea.itemArr.findIndex(item => item.id === id)
+       this.$set(this.$refs.formarea.itemArr,index,this.defaultData)
+       this.editAfter()
+     },
+     // 保存
+     handleSave(data){
+       const id = this.$refs.formarea.EditId 
+       const index = this.$refs.formarea.itemArr.findIndex(item => item.id === id) 
+       this.$set(this.$refs.formarea.itemArr,index,data) 
+       this.editAfter() 
+     },
+     
   }
 }
 </script>

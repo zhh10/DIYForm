@@ -1,10 +1,55 @@
 <template>
     <div class="edit">
-        <div>编辑</div>
-        <template v-if="data"> 
-            {{data.name}}
-            <Button @click="handleDelete" type="error">删除</Button>
-            <Button @click="handleCancel" type="primary">取消</Button>
+        <div class='editTitle'>设置/编辑</div>
+        <template v-if="ItemData"> 
+            <div class="editMain">
+                <div class="item">
+                    <Row>
+                        <div class="label">选项名称</div>
+                    </Row>
+                    <Row>
+                        <i-input v-model="ItemData.name"></i-input>
+                    </Row>
+                </div>
+                <div class="item" v-if = "ItemData.type === 'radio' || ItemData.type === 'checkbox'">
+                    <Row class="optionItem">
+                        <div class="label">子选项</div>
+                        <div><Button @click="addOption">新增</Button></div>
+                    </Row>
+                    <Row>
+                        <template v-for="(item,index) in ItemData.options">
+                            <template>
+                                <div :key="index">
+                                    <i-col span="18">
+                                        <i-input v-model="item.key"></i-input>
+                                    </i-col>
+                                    <i-col span="4">
+                                        <span class="removeIcon" @click="RemoveOption(index)">
+                                            <Icon type="md-remove" />
+                                        </span>
+                                    </i-col>
+                                </div>
+                            </template>
+                        </template>
+                    </Row>
+                </div>
+                <div class="item">
+                    <Row>
+                        <div class="label">是否是必填项</div>
+                    </Row>
+                    <Row>
+                        <RadioGroup v-model="ItemData.required" vertical>
+                            <Radio label="true"><span>是</span></Radio>
+                            <Radio label="false"><span>否</span></Radio>
+                        </RadioGroup>
+                    </Row>
+                </div>
+            </div>
+            <div class="editBtn">
+                <Button @click="handleDelete" type="error">删除</Button>
+                <Button @click="handleSave" type="success">保存</Button>
+                <Button @click="handleCancel" type="primary">取消</Button>
+            </div>
         </template>
         
     </div>
@@ -13,14 +58,34 @@
 export default {
     name:'editarea',
     props:{
-        data:Object
+        ItemData:Object,
+        defaultItemData:Object,
     },
     methods:{
+        // 删除
         handleDelete(){
             this.$emit('Delete')
         },
+        // 取消
         handleCancel(){
             this.$emit('Cancel')
+        },
+        // 保存
+        handleSave(){
+            if(this.ItemData.type === 'radio' || this.ItemData.type === 'checkbox'){
+                this.ItemData.options.forEach(item => {
+                    item.value = item.key
+                })
+            }
+            this.$emit('Save',this.ItemData)
+        },
+        // 新增子选项
+        addOption(){
+            this.ItemData.options.push({key:`选项${this.ItemData.options.length + 1}`,value:`选项${this.ItemData.options.length + 1}`})
+        },
+        // 删除子选项
+        RemoveOption(index){
+            this.ItemData.options.splice(index,1)
         }
     }
 }
@@ -28,5 +93,40 @@ export default {
 <style scoped>
 .edit{
     flex:1 1 20%;
+}
+.editTitle{
+    height:5%;
+    display: flex;
+    align-items: center;
+    background-color:#2d8cf0;
+    color:#fff;
+    font-size:20x;
+    padding:5px 0;
+    padding-left:20px;
+}
+.editMain{
+    height:85%;
+    overflow:auto;
+}
+.item{
+    padding:12px 30px;
+}
+.optionItem{
+    display: flex;
+}
+.removeIcon{
+    cursor: pointer;
+    color:#2d8cf0;
+    margin-left:10px;
+    width:15px;
+    height:32px;
+    line-height: 32px;
+}
+.editBtn{
+    height:10%;
+    width:100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 </style>
