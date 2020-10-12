@@ -3,15 +3,17 @@
         <div class='editTitle'>设置/编辑</div>
         <template v-if="ItemData"> 
             <div class="editMain">
-                <div class="item">
-                    <Row>
+                <!-- 选项名 -->
+                <div class="item" v-if="!noName">
+                    <Row >
                         <div class="label">选项名称</div>
                     </Row>
                     <Row>
                         <i-input v-model="ItemData.name"></i-input>
                     </Row>
                 </div>
-                <div class="item" v-if = "ItemData.type === 'radio' || ItemData.type === 'checkbox'">
+                <!-- 子选项 -->
+                <div class="item" v-if="needOption">
                     <Row>
                         <div class="OptionItem">
                             <span class="label">子选项</span>
@@ -35,6 +37,7 @@
                         </template>
                     </Row>
                 </div>
+                <!-- 必填项 -->
                 <div class="item" v-if="ItemData.required">
                     <Row>
                         <div class="label">是否是必填项</div>
@@ -46,8 +49,26 @@
                         </RadioGroup>
                     </Row>
                 </div>
+                <!-- 上传图片修改图片 -->
+                <div class="item" v-if="ItemData.type === 'image'">
+                    <Row>
+                        <div class="label">修改图片</div>
+                    </Row>
+                    <Row>
+                        <Upload type="drag" 
+                                action="http://oss.cepreicloud.com/bucket/upload" 
+                                :format="['jpg','jpeg','png']"
+                                :show-upload-list="false"
+                                :on-success="uploadSuccess">
+                            <div style="padding:20px 0">
+                                <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+                                <p>上传图片修改背景图</p>
+                            </div>
+                        </Upload>
+                    </Row>
+                </div>
                 <!-- 底部提示文字  底部文字 -->
-                <div class="item" v-if="ItemData.type === 'foot-tip' || ItemData.type === 'foot'">
+                <div class="item" v-if="isFoot">
                     <Row>
                         <div class="label">提示文字</div>
                     </Row>
@@ -72,6 +93,21 @@ export default {
         ItemData:Object,
         defaultItemData:Object,
     },
+    computed:{
+        // 不需要Name属性
+        noName(){
+            const noName = this.ItemData.type === 'image' ? true : false 
+            return noName
+        },
+        needOption(){
+            const needOption = this.ItemData.type === 'radio' || this.ItemData.type === 'checkbox' ? true : false 
+            return needOption
+        },
+        isFoot(){
+            const isFoot = this.ItemData.type === 'foot-tip' || this.ItemData.type === 'foot'
+            return isFoot
+        }
+    },
     methods:{
         // 删除
         handleDelete(){
@@ -91,8 +127,8 @@ export default {
             this.ItemData.name ? this.ItemData.name = this.ItemData.name.trim() : null
             this.ItemData.text ? this.ItemData.text = this.ItemData.text.trim() : null
             //  进行校验 通过就进行提交
-            console.log(this.ItemData)
             this.validate(this.ItemData) ? this.$emit('Save',this.ItemData) : null;
+            console.log(this.ItemData)
         },
         // 新增子选项
         addOption(){
@@ -108,11 +144,16 @@ export default {
                 this.message('error','选项名字不能为空')
                 return false
             }
-            if(!this.text){
+            if(!data.text){
                 this.message('error','提示文字不能为空')
                 return false
             }
             return true
+        },
+        uploadSuccess(response){
+            console.log(123)
+            const url = response.data 
+            this.ItemData.imgAddress = url
         },
         message(type,content){
             switch(type){

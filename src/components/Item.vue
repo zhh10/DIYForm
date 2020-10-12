@@ -6,7 +6,8 @@
                 :type="item.type"
                 :options="JSON.stringify(item.options)"
                 :required="item.required"
-                :text="item.text">
+                :text="item.text"
+                :imgAddress="item.imgAddress">
                 {{item.name}}
             </div>
         </template>
@@ -31,7 +32,8 @@ export default {
                 {type:'checkbox',name:'多选框',options:[{key:'选项1',value:'选项1'},{key:'选项2',value:'选项2'}],required:true,},
                 {type:'radio',name:'单选框',options:[{key:'选项1',value:'选项1'},{key:'选项2',value:'选项2'}],required:true,},
                 {type:'foot-tip',name:'底部提示文字',text:'点击编辑底部提示文字'},
-                {type:'foot',name:'底部文字',text:'由赛宝质云提供技术支持'}
+                {type:'foot',name:'底部文字',text:'由赛宝质云提供技术支持'},
+                {type:'image',name:'图片',imgAddress:'http://pcdn.mikecrm.com/ugc_4_a/pub/s6/s63kf0hky40tpe1ioz25c2mjchshd1cy/form/image/C2nSzNvrEI9sD1NMl1sOv1EjLcmxzq5n.jpg',}
             ]
         }
     },
@@ -43,12 +45,14 @@ export default {
             const options = element.getAttribute('options') ? JSON.parse(element.getAttribute('options').split(',')) : null
             const required = element.getAttribute('required') ? String(Boolean(element.getAttribute('required'))) : null
             const text = element.getAttribute('text')
+            const imgAddress = element.getAttribute('imgAddress')
             const name = element.innerText 
             self.item = {type,
                          name,
                          options,
                          required,
-                         text 
+                         text,
+                         imgAddress
                          }
             e.dataTransfer.setData('data',JSON.stringify(self.item))
         },

@@ -9,7 +9,7 @@
                     @dragenter.stop="onItemDragEnter"
                     @dragend.stop="onItemDragEnd">
                         <Row>
-                            <div class="label">
+                            <div class="label" v-if="item.type !== 'image'">
                                 <span class="required" v-if="item.required === 'true'">*</span>{{item.name}}
                             </div>
                         </Row>
@@ -35,6 +35,10 @@
                                             </template>
                                         </checkboxGroup>
                                     </template>
+                                    <!-- 图片 -->
+                                    <template v-if="item.type === 'image'">
+                                        <img :src="item.imgAddress" alt="" class="image">
+                                    </template>
                             </i-col>
                         </Row>
                     </div>  
@@ -42,7 +46,7 @@
             </div>
             <!-- 提交按钮 -->
             <Button class="submit-Btn" type="primary" v-if="itemArr.length >= 1" @click="editBtnText">
-                <i-input v-if="isEditBtnText" v-model="btnText" @on-blur="editBtnText"  @on-enter="editEnterKey" ref="SubmitBtn"></i-input>
+                <i-input v-if="isEditBtnText" v-model="btnText" @on-blur="editBtnText"  @on-enter="editEnterKey" ref="SubmitBtn" size="large"></i-input>
                 <span v-else >{{btnText}}</span>
             </Button>
             <!-- 底部提示文字 -->
@@ -143,6 +147,7 @@ export default {
                 obj.id = new Date().getTime() 
                 this.itemArr.push(obj)
             }
+            console.log(obj)
         },
         // 编辑
         handleEdit(id){
@@ -229,6 +234,9 @@ export default {
 }
 .component{
     margin-top:6px;
+}
+.image{
+    width:100%;
 }
 .submit-Btn{
     width:100%;
