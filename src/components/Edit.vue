@@ -88,8 +88,11 @@ export default {
                     item.value = item.key
                 })
             }
-            // 校验选项名字
-            this.$emit('Save',this.ItemData)
+            this.ItemData.name ? this.ItemData.name = this.ItemData.name.trim() : null
+            this.ItemData.text ? this.ItemData.text = this.ItemData.text.trim() : null
+            //  进行校验 通过就进行提交
+            console.log(this.ItemData)
+            this.validate(this.ItemData) ? this.$emit('Save',this.ItemData) : null;
         },
         // 新增子选项
         addOption(){
@@ -97,7 +100,29 @@ export default {
         },
         // 删除子选项
         RemoveOption(index){
-            this.ItemData.options.length > 1 ? this.ItemData.options.splice(index,1) : this.$Modal.warning({title:'警告',content:'选项数量不能为零'})
+            this.ItemData.options.length > 1 ? this.ItemData.options.splice(index,1) : this.message('warning','选项数量不能为零')
+        },
+        // 验证
+        validate(data){
+            if(!data.name){
+                this.message('error','选项名字不能为空')
+                return false
+            }
+            if(!this.text){
+                this.message('error','提示文字不能为空')
+                return false
+            }
+            return true
+        },
+        message(type,content){
+            switch(type){
+                case 'warning':
+                    this.$Modal.warning({title:'警告',content})
+                    break ;
+                case 'error':
+                    this.$Modal.error({title:'错误',content})
+                    break ;
+            }
         }
     }
 }

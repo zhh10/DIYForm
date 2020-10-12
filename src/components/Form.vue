@@ -41,9 +41,9 @@
                 </template>
             </div>
             <!-- 提交按钮 -->
-            <Button class="submit-Btn" type="primary" v-if="itemArr.length >= 1">
-                <i-input v-if="isEditBtnText" v-model="btnText" @on-blur="editBtnText"></i-input>
-                <span v-else @click="editBtnText">{{btnText}}</span>
+            <Button class="submit-Btn" type="primary" v-if="itemArr.length >= 1" @click="editBtnText">
+                <i-input v-if="isEditBtnText" v-model="btnText" @on-blur="editBtnText"  @on-enter="editEnterKey" ref="SubmitBtn"></i-input>
+                <span v-else >{{btnText}}</span>
             </Button>
             <!-- 底部提示文字 -->
             <div class="tip" v-if="hasFootTip" @click="handleEdit(hasFootTip.id)" :class="{'itemEdit':EditId === hasFootTip.id}">
@@ -74,7 +74,6 @@ export default {
             EditId:null,
             btnText:'提交',//默认提交按钮文字
             isEditBtnText:false,
-
         }
     },
     computed:{
@@ -158,9 +157,23 @@ export default {
         },
         // 切换 编辑按钮文字
         editBtnText(){
+            console.log(123)
+            if(this.btnText){
+                this.btnText = this.btnText.trim()
+            }else{
+                this.$Modal.warning({title:'警告',content:'按钮文字不能为空'})
+                this.$refs.SubmitBtn.focus()
+                return ;
+            }
             this.isEditBtnText = !this.isEditBtnText
+            this.$nextTick(()=>{
+                this.isEditBtnText ? this.$refs.SubmitBtn.focus() : null
+            })
         },
-        // form是否在to之前
+        editEnterKey(e){
+            e.target.blur()
+        },
+        // 查看form是否在to之前
         isPrevious(form,to){
             if(form && to){
                 while(form.previousElementSibling !== null){
