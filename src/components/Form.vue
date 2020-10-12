@@ -9,7 +9,7 @@
                     @dragenter.stop="onItemDragEnter"
                     @dragend.stop="onItemDragEnd">
                         <Row>
-                            <div class="label" v-if="item.type !== 'image'">
+                            <div class="label" v-if="item.type !== 'image' && item.type !== 'title'">
                                 <span class="required" v-if="item.required === 'true'">*</span>{{item.name}}
                             </div>
                         </Row>
@@ -38,6 +38,10 @@
                                     <!-- 图片 -->
                                     <template v-if="item.type === 'image'">
                                         <img :src="item.imgAddress" alt="" class="image">
+                                    </template>
+                                    <!-- 标题 -->
+                                    <template v-if="item.type === 'title'" class="">
+                                        <div class="title">{{item.text}}</div>
                                     </template>
                             </i-col>
                         </Row>
@@ -237,6 +241,11 @@ export default {
 }
 .image{
     width:100%;
+}
+.title{
+    text-align: center;
+    font-size:25px;
+    font-weight:700;
 }
 .submit-Btn{
     width:100%;

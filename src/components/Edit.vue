@@ -67,8 +67,8 @@
                         </Upload>
                     </Row>
                 </div>
-                <!-- 底部提示文字  底部文字 -->
-                <div class="item" v-if="isFoot">
+                <!-- 有text的部分-->
+                <div class="item" v-if="hasText">
                     <Row>
                         <div class="label">提示文字</div>
                     </Row>
@@ -103,9 +103,9 @@ export default {
             const needOption = this.ItemData.type === 'radio' || this.ItemData.type === 'checkbox' ? true : false 
             return needOption
         },
-        isFoot(){
-            const isFoot = this.ItemData.type === 'foot-tip' || this.ItemData.type === 'foot'
-            return isFoot
+        hasText(){
+            const hasText = this.ItemData.type === 'foot-tip' || this.ItemData.type === 'foot' || this.ItemData.type === 'title'
+            return hasText
         }
     },
     methods:{
@@ -144,7 +144,7 @@ export default {
                 this.message('error','选项名字不能为空')
                 return false
             }
-            if(!data.text){
+            if(!data.text && this.hasText){
                 this.message('error','提示文字不能为空')
                 return false
             }
