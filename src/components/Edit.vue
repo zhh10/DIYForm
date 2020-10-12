@@ -12,18 +12,20 @@
                     </Row>
                 </div>
                 <div class="item" v-if = "ItemData.type === 'radio' || ItemData.type === 'checkbox'">
-                    <Row class="optionItem">
-                        <div class="label">子选项</div>
-                        <div><Button @click="addOption">新增</Button></div>
-                    </Row>
                     <Row>
+                        <div class="OptionItem">
+                            <span class="label">子选项</span>
+                            <Button @click="addOption" type="primary" size="small">新增选项</Button>
+                        </div>
+                    </Row>
+                    <Row v-if="ItemData.options">
                         <template v-for="(item,index) in ItemData.options">
                             <template>
                                 <div :key="index">
-                                    <i-col span="18">
-                                        <i-input v-model="item.key"></i-input>
+                                    <i-col span="20" class="OptionItem-input">
+                                        <i-input v-model="item.key" ></i-input>
                                     </i-col>
-                                    <i-col span="4">
+                                    <i-col span="4" class="OptionItem-icon">
                                         <span class="removeIcon" @click="RemoveOption(index)">
                                             <Icon type="md-remove" />
                                         </span>
@@ -33,7 +35,7 @@
                         </template>
                     </Row>
                 </div>
-                <div class="item">
+                <div class="item" v-if="ItemData.required">
                     <Row>
                         <div class="label">是否是必填项</div>
                     </Row>
@@ -42,6 +44,15 @@
                             <Radio label="true"><span>是</span></Radio>
                             <Radio label="false"><span>否</span></Radio>
                         </RadioGroup>
+                    </Row>
+                </div>
+                <!-- 底部提示文字  底部文字 -->
+                <div class="item" v-if="ItemData.type === 'foot-tip' || ItemData.type === 'foot'">
+                    <Row>
+                        <div class="label">提示文字</div>
+                    </Row>
+                    <Row>
+                        <i-input v-model="ItemData.text" type="textarea"></i-input>
                     </Row>
                 </div>
             </div>
@@ -77,6 +88,7 @@ export default {
                     item.value = item.key
                 })
             }
+            // 校验选项名字
             this.$emit('Save',this.ItemData)
         },
         // 新增子选项
@@ -85,7 +97,7 @@ export default {
         },
         // 删除子选项
         RemoveOption(index){
-            this.ItemData.options.splice(index,1)
+            this.ItemData.options.length > 1 ? this.ItemData.options.splice(index,1) : this.$Modal.warning({title:'警告',content:'选项数量不能为零'})
         }
     }
 }
@@ -111,8 +123,21 @@ export default {
 .item{
     padding:12px 30px;
 }
-.optionItem{
+.label{
+    font-size:18px;
+    font-weight: 700;
+}
+.OptionItem{
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.OptionItem-input{
+    margin:10px 0;
+}
+.OptionItem-icon{
+    margin:10px 0;
+    text-align: center;
 }
 .removeIcon{
     cursor: pointer;

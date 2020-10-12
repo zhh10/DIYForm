@@ -24,6 +24,13 @@ export default {
   methods:{
     // 编辑前的准备工作
      editBefore(id){
+        if(this.defaultData){
+            // 如果有defaultData在 说明上一次没保存就切换了 这时候要回撤数据
+            // const index = this.$refs.formarea.itemArr.findIndex(item => item.id === this.$refs.formarea.EditId) 
+            const id = this.defaultData.id 
+            const index = this.$refs.formarea.itemArr.findIndex(item => item.id === id) 
+            this.$set(this.$refs.formarea.itemArr,index,this.defaultData)
+        }
         const index = this.$refs.formarea.itemArr.findIndex(item => item.id === id)
         this.data = this.$refs.formarea.itemArr[index] 
         this.defaultData =  _.cloneDeep(this.data)
@@ -33,6 +40,7 @@ export default {
         this.$refs.formarea.Edit = null 
         this.data = null 
         this.defaultData = null 
+        this.$refs.formarea.EditId = null
      },
     //  删除
      handleDelete(){
