@@ -40,8 +40,12 @@
                                         <img :src="item.imgAddress" alt="" class="image">
                                     </template>
                                     <!-- 标题 -->
-                                    <template v-if="item.type === 'title'" class="">
+                                    <template v-if="item.type === 'title'" >
                                         <div class="title">{{item.text}}</div>
+                                    </template>
+                                    <!-- 副标题 -->
+                                    <template v-if="item.type === 'sub-title'">
+                                        <div class="sub-title">{{item.text}}</div>
                                     </template>
                             </i-col>
                         </Row>
@@ -246,6 +250,11 @@ export default {
     text-align: center;
     font-size:25px;
     font-weight:700;
+}
+.sub-title{
+    text-align: center;
+    font-size:20px;
+    font-weight:500,
 }
 .submit-Btn{
     width:100%;
