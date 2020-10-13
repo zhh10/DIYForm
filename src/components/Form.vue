@@ -9,7 +9,7 @@
                     @dragenter.stop="onItemDragEnter"
                     @dragend.stop="onItemDragEnd">
                         <Row>
-                            <div class="label" v-if="item.type !== 'image' && item.type !== 'title'">
+                            <div class="label" v-if="item.type !== 'image' && item.type !== 'title' && item.type !== 'sub-title'">
                                 <span class="required" v-if="item.required === 'true'">*</span>{{item.name}}
                             </div>
                         </Row>
@@ -66,8 +66,6 @@
                 <span>{{hasFoot.text}}</span>
             </div>
         </div>
-            
-
     </div>
     
 </template>

@@ -104,7 +104,7 @@ export default {
             return needOption
         },
         hasText(){
-            const hasText = this.ItemData.type === 'foot-tip' || this.ItemData.type === 'foot' || this.ItemData.type === 'title'
+            const hasText = this.ItemData.type === 'foot-tip' || this.ItemData.type === 'foot' || this.ItemData.type === 'title' || this.ItemData.type === 'sub-title'
             return hasText
         }
     },
