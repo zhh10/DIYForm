@@ -37,7 +37,7 @@
                                     </template>
                                     <!-- 图片 -->
                                     <template v-if="item.type === 'image'">
-                                        <img :src="item.imgAddress" alt="" class="image">
+                                        <img :src="item.imgAddress" alt="" class="image" draggable=false>
                                     </template>
                                     <!-- 标题 -->
                                     <template v-if="item.type === 'title'" >
@@ -133,7 +133,6 @@ export default {
         onItemDragEnd(){
             this.formDom.style.opacity = 1 
             let domList = [...this.$refs.domList.children]
-            console.log(domList)
             let order = domList.map(item => this.children.findIndex(i => i === item))
             let newData = [] 
             order.forEach((item,index)=>{
@@ -243,6 +242,7 @@ export default {
 }
 .image{
     width:100%;
+    height:100%;
 }
 .title{
     text-align: center;
