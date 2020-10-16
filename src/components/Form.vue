@@ -1,6 +1,10 @@
 <template>
-    <div class="formarea" :class="{'active':inner}" @dragover.prevent @dragenter="onDragEnter" @dragleave="onDragLeave" @drop="onDrop">
-        <div  class="formarea-Main" >
+    <div class="formarea" >
+        <div class="save">
+            <Button size="small" class="saveBtn" type="success">保存</Button>
+            <Button size="small" class="saveCancel" type="error" @click="ResetForm">重置</Button>
+        </div>
+        <div  class="formarea-Main" :class="{'active':inner}" @dragover.prevent @dragenter="onDragEnter" @dragleave="onDragLeave" @drop="onDrop">
             <div ref="domList">
                 <!-- 循环 itemArr -->
                 <template v-for="item in newitemArr">
@@ -194,6 +198,12 @@ export default {
                     form = form.previousElementSibling
                 }
             }
+        },
+        // 重置表单
+        ResetForm(){
+            this.itemArr = []
+            this.$emit('reset')
+
         }
     },
 }
@@ -202,13 +212,34 @@ export default {
 .formarea{
     flex:1 1 60%;
     height:100%;
-    overflow:auto;
+    /* overflow:auto; */
+}
+.save{
+    height:5%;
+    background-color:#2d8cf0;
+    color:#fff;
+    border-left:1px solid #fff;
+    border-right:1px solid #fff;
+    text-align:right;
+    position: relative;
+}
+.saveBtn,.saveCancel{
+    position:absolute;
+    top:50%;
+    transform: translateY(-50%);
+}
+.saveBtn{
+    right:10px;
+}
+.saveCancel{
+    right:70px;
 }
 .formarea-Main{
     /* padding:20px;
     height:92%;
     overflow: auto; */
-    height:100%;
+    height:95%;
+    overflow:auto;
 }
 .active{
     border:2px solid red;

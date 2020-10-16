@@ -1,7 +1,7 @@
 <template>
     <div class="wrap">
         <itemarea ref="item"/>
-        <formarea ref="formarea" @edit="editBefore($event)"/>
+        <formarea ref="formarea" @edit="editBefore($event)" @reset="editAfter"/>
         <editarea :ItemData="data" :defaultItemData="defaultData" @Delete="handleDelete" @Cancel="handleCancel" @Save="handleSave"/>
     </div>
 </template>
@@ -37,7 +37,7 @@ export default {
      },
      // 编辑后的操作
      editAfter(){
-        this.$refs.formarea.Edit = null 
+        // this.$refs.formarea.Edit = null 
         this.data = null 
         this.defaultData = null 
         this.$refs.formarea.EditId = null
@@ -61,7 +61,6 @@ export default {
        this.$set(this.$refs.formarea.itemArr,index,data) 
        this.editAfter() 
      },
-     
   }
 }
 </script>
