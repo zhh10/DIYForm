@@ -172,9 +172,10 @@ export default {
         },
         // 切换 编辑按钮文字
         editBtnText(e){
-            console.log(this.Lock)
+            if(this.EditId){
+                this.$emit('reset')
+            }
             if(!this.Lock){
-                console.log(123)
                 if(this.btnText){
                 this.btnText = this.btnText.trim()
                 }else{
@@ -182,21 +183,15 @@ export default {
                     this.$refs.SubmitBtn.focus()
                     return ;
                 } 
-                // this.$refs.SubmitBtn ? console.log(Array.from(this.$refs.SubmitBtn.$el.children).includes(e.target)) : null
-                // console.log(e.target)
                 if(this.$refs.SubmitBtn && Array.from(this.$refs.SubmitBtn.$el.children).includes(e.target)){
-                    console.log(4)
                     this.Lock = true
-                    console.log(this.Lock)
                     setTimeout(()=>{this.Lock = false},100)
                 }
                 this.isEditBtnText = !this.isEditBtnText
                 this.$nextTick(()=>{
                     this.isEditBtnText ? this.$refs.SubmitBtn.focus() : null
                 })
-            }
-            
-            
+            }  
         },
         editEnterKey(e){
             e.target.blur()
