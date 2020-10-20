@@ -57,8 +57,8 @@
                 </template>
             </div>
             <!-- 提交按钮 -->
-            <Button class="submit-Btn" type="primary" v-if="itemArr.length >= 1" @click="editBtnText">
-                <i-input v-if="isEditBtnText" v-model="btnText" @on-blur="editBtnText"  @on-enter="editEnterKey" ref="SubmitBtn" size="large"></i-input>
+            <Button class="submit-Btn" type="primary" v-if="itemArr.length >= 1" @click="editBtnText($event)">
+                <i-input v-if="isEditBtnText" v-model="btnText" @on-blur="editBtnText($event)"  @on-enter="editEnterKey" ref="SubmitBtn" size="large"></i-input>
                 <span v-else >{{btnText}}</span>
             </Button>
             <!-- 底部提示文字 -->
@@ -88,6 +88,7 @@ export default {
             EditId:null,
             btnText:'提交',//默认提交按钮文字
             isEditBtnText:false,
+            Lock:false,
         }
     },
     computed:{
@@ -156,7 +157,6 @@ export default {
                 obj.id = new Date().getTime() 
                 this.itemArr.push(obj)
             }
-            console.log(obj)
         },
         // 编辑
         handleEdit(id){
@@ -170,19 +170,32 @@ export default {
             this.itemArr.splice(index,1)
         },
         // 切换 编辑按钮文字
-        editBtnText(){
-            console.log(123)
-            if(this.btnText){
+        editBtnText(e){
+            console.log(this.Lock)
+            if(!this.Lock){
+                console.log(123)
+                if(this.btnText){
                 this.btnText = this.btnText.trim()
-            }else{
-                this.$Modal.warning({title:'警告',content:'按钮文字不能为空'})
-                this.$refs.SubmitBtn.focus()
-                return ;
+                }else{
+                    this.$Modal.warning({title:'警告',content:'按钮文字不能为空'})
+                    this.$refs.SubmitBtn.focus()
+                    return ;
+                } 
+                // this.$refs.SubmitBtn ? console.log(Array.from(this.$refs.SubmitBtn.$el.children).includes(e.target)) : null
+                // console.log(e.target)
+                if(this.$refs.SubmitBtn && Array.from(this.$refs.SubmitBtn.$el.children).includes(e.target)){
+                    console.log(4)
+                    this.Lock = true
+                    console.log(this.Lock)
+                    setTimeout(()=>{this.Lock = false},100)
+                }
+                this.isEditBtnText = !this.isEditBtnText
+                this.$nextTick(()=>{
+                    this.isEditBtnText ? this.$refs.SubmitBtn.focus() : null
+                })
             }
-            this.isEditBtnText = !this.isEditBtnText
-            this.$nextTick(()=>{
-                this.isEditBtnText ? this.$refs.SubmitBtn.focus() : null
-            })
+            
+            
         },
         editEnterKey(e){
             e.target.blur()
@@ -203,7 +216,6 @@ export default {
         ResetForm(){
             this.itemArr = []
             this.$emit('reset')
-
         }
     },
 }
