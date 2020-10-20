@@ -154,7 +154,8 @@ export default {
             let obj = e.dataTransfer.getData('data')
             if(obj){
                 obj = JSON.parse(obj)
-                obj.id = new Date().getTime() 
+                obj.id = Math.random().toString(16).substr(2,4)//生成4位随机数
+                // obj.id = new Date().getTime() 
                 this.itemArr.push(obj)
             }
         },
