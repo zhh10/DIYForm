@@ -38,7 +38,7 @@
                     </Row>
                 </div>
                 <!-- 必填项 -->
-                <div class="item" v-if="ItemData.required">
+                <div class="item" v-if="hasRequired">
                     <Row>
                         <div class="label">是否是必填项</div>
                     </Row>
@@ -106,6 +106,10 @@ export default {
         hasText(){
             const hasText = this.ItemData.type === 'foot-tip' || this.ItemData.type === 'foot' || this.ItemData.type === 'title' || this.ItemData.type === 'sub-title'
             return hasText
+        },
+        hasRequired(){
+            const hasRequired = this.ItemData.type === 'input' || this.ItemData.type === 'checkbox' || this.ItemData.type === 'radio'
+            return hasRequired
         }
     },
     methods:{
