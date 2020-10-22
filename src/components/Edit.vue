@@ -27,7 +27,7 @@
                                     <i-col span="20" class="editarea--editItem--OptionItem--input">
                                         <i-input v-model="item.key" ></i-input>
                                     </i-col>
-                                    <i-col span="4" class="editarea--editItem--OptionItem--input-icon">
+                                    <i-col span="4" class="editarea--editItem--OptionItem--icon">
                                         <span class="removeIcon" @click="RemoveOption(index)">
                                             <Icon type="md-remove" />
                                         </span>
@@ -71,7 +71,7 @@
                 <!-- 有text的部分-->
                 <div class="editarea--editItem" v-if="hasText">
                     <Row>
-                        <div class="editarea--editItem--label">提示文字</div>
+                        <div class="editarea--editItem--label">{{Text}}</div>
                     </Row>
                     <Row>
                         <i-input v-model="ItemData.text" type="textarea"></i-input>
@@ -97,7 +97,7 @@ export default {
     computed:{
         // 不需要Name属性
         noName(){
-            const noName = this.ItemData.type === 'image' ? true : false 
+            const noName = this.ItemData.type === 'image' || this.ItemData.type === 'foot-tip' || this.ItemData.type === 'foot' || this.ItemData.type === 'title' || this.ItemData.type === 'sub-title' ? true : false 
             return noName
         },
         needOption(){
@@ -111,6 +111,15 @@ export default {
         hasRequired(){
             const hasRequired = this.ItemData.type === 'input' || this.ItemData.type === 'checkbox' || this.ItemData.type === 'radio'
             return hasRequired
+        },
+        Text(){
+            let text 
+            if(this.ItemData.type === 'foot-tip' || this.ItemData.type === 'foot'){
+                text = "提示文字"
+            }else if(this.ItemData.type === 'title' || this.ItemData.type === 'sub-title'){
+                text = '标题'
+            }
+            return text
         }
     },
     methods:{

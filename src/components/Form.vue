@@ -74,7 +74,7 @@
             </div>
         </div>
         <Spin fix v-if="loading">
-            <Icon type="ios-loading" size=30 class="demo-spin-icon-load"></Icon>
+            <Icon type="ios-loading" size="large" class="demo-spin-icon-load"></Icon>
             <div>图片上传中</div>
         </Spin>
     </div>
@@ -190,7 +190,7 @@ export default {
                 } 
                 if(this.$refs.SubmitBtn && Array.from(this.$refs.SubmitBtn.$el.children).includes(e.target)){
                     this.Lock = true
-                    setTimeout(()=>{this.Lock = false},100)
+                    setTimeout(()=>{this.Lock = false},400)
                 }
                 this.isEditBtnText = !this.isEditBtnText
                 this.$nextTick(()=>{
@@ -219,14 +219,6 @@ export default {
             this.$emit('reset')
         }
     }, 
-    // updated(){
-    //     if(this.$refs.image){
-    //         console.log(this.$refs.image[0].src)
-    //         this.$refs.image[0].onload = function(){
-    //             console.log(123)
-    //         }
-    //     }
-    // }
 }
 </script>
 <style  scoped>
