@@ -1,0 +1,24 @@
+.Itemarea{
+    flex:1 1 20%;
+    flex-wrap:wrap;
+    justify-content: center;
+    @at-root #{&}--item{
+        width:100px;
+        height:50px;
+        margin:20px 20px 10px 20px;
+        line-height:50px;
+        text-align:center;
+        display: inline-block;
+        border:1px solid #000;
+    }   
+    @at-root #{&}--title{
+        height:5%;
+        display:flex;
+        align-items: center;
+        background-color: #2d8cf0;
+        color:#fff;
+        font-size:20px;
+        padding:5px 0;
+        padding-left:20px;
+    }
+}

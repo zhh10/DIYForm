@@ -1,8 +1,8 @@
 <template>
-    <div class="itemarea">
-        <div class="itemTitle">基础/组件</div>
+    <div class="Itemarea">
+        <div class="Itemarea--title">基础/组件</div>
         <template v-for="(item,index) in itemList">
-            <div class="item" draggable @dragstart.stop="onDragStart" @dragend.stop="onDragEnd" :key="index"
+            <div class="Itemarea--item" draggable @dragstart.stop="onDragStart" @dragend.stop="onDragEnd" :key="index"
                 :type="item.type"
                 :options="JSON.stringify(item.options)"
                 :required="item.required"
@@ -67,7 +67,7 @@ export default {
 }
 </script>
 <style scoped> 
-.itemarea{
+/* .itemarea{
     flex:1 1 20%;
     flex-wrap: wrap;
     justify-content: center;
@@ -87,8 +87,8 @@ export default {
     align-items: center;
     background-color:#2d8cf0;
     color:#fff;
-    font-size:20x;
+    font-size:20px;
     padding:5px 0;
     padding-left:20px;
-}
+} */
 </style>

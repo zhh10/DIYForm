@@ -1,23 +1,23 @@
 <template>
     <div class="formarea" >
-        <div class="save">
-            <Button size="small" class="saveBtn" type="success">保存</Button>
-            <Button size="small" class="saveCancel" type="error" @click="ResetForm">重置</Button>
+        <div class="formarea--BtnGroup">
+            <Button size="small" class="formarea--BtnGroup--btn save" type="success">保存</Button>
+            <Button size="small" class="formarea--BtnGroup--btn reset" type="error" @click="ResetForm">重置</Button>
         </div>
-        <div  class="formarea-Main" :class="{'active':inner}" @dragover.prevent @dragenter="onDragEnter" @dragleave="onDragLeave" @drop="onDrop">
+        <div  class="formarea--Main" :class="{'active':inner}" @dragover.prevent @dragenter="onDragEnter" @dragleave="onDragLeave" @drop="onDrop">
             <div ref="domList">
                 <!-- 循环 itemArr -->
                 <template v-for="item in newitemArr">
-                    <div :key="item.id" class="item" :class="{'itemEdit':EditId === item.id}" @click="handleEdit(item.id)" draggable 
+                    <div :key="item.id" class="formarea--Item" :class="{'formarea--ItemEdit':EditId === item.id}" @click="handleEdit(item.id)" draggable 
                     @dragstart.stop="onItemDragStart"
                     @dragenter.stop="onItemDragEnter"
                     @dragend.stop="onItemDragEnd">
                         <Row>
-                            <div class="label" v-if="item.type !== 'image' && item.type !== 'title' && item.type !== 'sub-title'">
-                                <span class="required" v-if="item.required === 'true'">*</span>{{item.name}}
+                            <div class="formarea--Item--label" v-if="item.type !== 'image' && item.type !== 'title' && item.type !== 'sub-title'">
+                                <span class="formarea--Item--required" v-if="item.required === 'true'">*</span>{{item.name}}
                             </div>
                         </Row>
-                        <Row class="component">
+                        <Row class="formarea--Item--component">
                             <i-col span="24">
                                 <!-- 输入框 -->
                                     <template v-if="item.type === 'input'">
@@ -41,15 +41,15 @@
                                     </template>
                                     <!-- 图片 -->
                                     <template v-if="item.type === 'image'">
-                                        <img :src="item.imgAddress" alt="" class="image" draggable=false>
+                                        <img :src="item.imgAddress" alt="" class="formarea--Item--image" draggable=false>
                                     </template>
                                     <!-- 标题 -->
                                     <template v-if="item.type === 'title'" >
-                                        <div class="title">{{item.text}}</div>
+                                        <div class="formarea--Item--title">{{item.text}}</div>
                                     </template>
                                     <!-- 副标题 -->
                                     <template v-if="item.type === 'sub-title'">
-                                        <div class="sub-title">{{item.text}}</div>
+                                        <div class="formarea--Item--subTitle">{{item.text}}</div>
                                     </template>
                             </i-col>
                         </Row>
@@ -57,16 +57,16 @@
                 </template>
             </div>
             <!-- 提交按钮 -->
-            <Button class="submit-Btn" type="primary" v-if="itemArr.length >= 1" @click="editBtnText($event)">
+            <Button class="formarea--submitBtn" type="primary" v-if="itemArr.length >= 1" @click="editBtnText($event)">
                 <i-input v-if="isEditBtnText" v-model="btnText" @on-blur="editBtnText($event)"  @on-enter="editEnterKey" ref="SubmitBtn" size="large"></i-input>
                 <span v-else >{{btnText}}</span>
             </Button>
             <!-- 底部提示文字 -->
-            <div class="tip" v-if="hasFootTip" @click="handleEdit(hasFootTip.id)" :class="{'itemEdit':EditId === hasFootTip.id}">
+            <div class="formarea--tip" v-if="hasFootTip" @click="handleEdit(hasFootTip.id)" :class="{'itemEdit':EditId === hasFootTip.id}">
                 <div>{{hasFootTip.text}}</div>
             </div>
             <!-- 底部文字 -->
-            <div class="foot" v-if="hasFoot" @click="handleEdit(hasFoot.id)" :class="{'itemEdit':EditId === hasFoot.id}">
+            <div class="formarea--foot" v-if="hasFoot" @click="handleEdit(hasFoot.id)" :class="{'itemEdit':EditId === hasFoot.id}">
                 <span>{{hasFoot.text}}</span>
             </div>
         </div>
@@ -217,11 +217,11 @@ export default {
 }
 </script>
 <style scoped>
-.formarea{
+/* .formarea{
     flex:1 1 60%;
     height:100%;
     /* overflow:auto; */
-}
+/* }
 .save{
     height:5%;
     background-color:#2d8cf0;
@@ -242,23 +242,23 @@ export default {
 .saveCancel{
     right:70px;
 }
-.formarea-Main{
+.formarea-Main{ */
     /* padding:20px;
     height:92%;
     overflow: auto; */
-    height:95%;
+    /* height:95%;
     overflow:auto;
 }
 .active{
     border:2px solid red;
 }
-.item{
+.item{ */
     /* margin:10px 0;
     padding:10px; */
-    padding:30px 12px;
-    margin-bottom: 10px;
+    /* padding:30px 12px;
+    margin-bottom: 10px; */
     /* display: flex; */
-}
+/* }
 .item:hover{
     opacity: .5;
     border: 2px solid #000;
@@ -308,5 +308,5 @@ export default {
 .foot{
     margin-top: 20px;
     text-align:center;
-}
+}  */
 </style>

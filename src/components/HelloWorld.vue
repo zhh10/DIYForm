@@ -1,5 +1,5 @@
 <template>
-    <div class="wrap">
+    <div class="wrapper">
         <itemarea ref="item"/>
         <formarea ref="formarea" @edit="editBefore($event)" @reset="editAfter"/>
         <editarea :ItemData="data" :defaultItemData="defaultData" @Delete="handleDelete" @Cancel="handleCancel" @Save="handleSave"/>
@@ -67,17 +67,6 @@ export default {
 <style>
 html,body{
   height:100%;
-}
-.wrap{
-  height:100%;
-  display: flex;
-}
-.formarea{
-  flex:1 1 80%;
-  background-color: whitesmoke;
-}
-.active{
-  border:2px solid red;
 }
 </style>
 

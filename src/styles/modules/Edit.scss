@@ -1,0 +1,53 @@
+.editarea{
+    flex:1 1 20%;
+    @at-root #{&}--title{
+        height:5%;
+        display:flex;
+        align-items: center;
+        background-color: #2d8cf0;
+        color:#fff;
+        font-size:20px;
+        padding:5px 0;
+        padding-left:20px;
+    }
+    @at-root #{&}--editContent{
+        height:85%;
+        overflow:auto;
+    }
+    @at-root #{&}--editItem{
+        padding:12px 30px;
+        
+        @at-root #{&}--label{
+            font-size:18px;
+            font-weight:700;
+        }
+        @at-root #{&}--OptionItem{
+            display:flex;
+            justify-content: space-between;
+            align-items: center;
+
+            @at-root #{&}--input{
+                margin:10px 0;
+            }
+            @at-root #{&}--icon{
+                margin:10px 0;
+                text-align: center;
+            }
+        } 
+    }
+    @at-root #{&}--editBtn{
+        height:10%;
+        width:100%;
+        display:flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+}
+.removeIcon{
+    cursor: pointer;
+    color:#2d8cf0;
+    margin-left:10px;
+    width:15px;
+    height:32px;
+    line-height: 32px;
+}

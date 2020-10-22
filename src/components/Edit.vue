@@ -1,22 +1,22 @@
 <template>
-    <div class="edit">
-        <div class='editTitle'>设置/编辑</div>
+    <div class="editarea">
+        <div class='editarea--title'>设置/编辑</div>
         <template v-if="ItemData"> 
-            <div class="editMain">
+            <div class="editarea--editContent">
                 <!-- 选项名 -->
-                <div class="item" v-if="!noName">
+                <div class="editarea--editItem" v-if="!noName">
                     <Row >
-                        <div class="label">选项名称</div>
+                        <div class="editarea--editItem--label">选项名称</div>
                     </Row>
                     <Row>
                         <i-input v-model="ItemData.name"></i-input>
                     </Row>
                 </div>
                 <!-- 子选项 -->
-                <div class="item" v-if="needOption">
+                <div class="editarea--editItem" v-if="needOption">
                     <Row>
-                        <div class="OptionItem">
-                            <span class="label">子选项</span>
+                        <div class="editarea--editItem--OptionItem">
+                            <span class="editarea--editItem--label">子选项</span>
                             <Button @click="addOption" type="primary" size="small">新增选项</Button>
                         </div>
                     </Row>
@@ -24,10 +24,10 @@
                         <template v-for="(item,index) in ItemData.options">
                             <template>
                                 <div :key="index">
-                                    <i-col span="20" class="OptionItem-input">
+                                    <i-col span="20" class="editarea--editItem--OptionItem--input">
                                         <i-input v-model="item.key" ></i-input>
                                     </i-col>
-                                    <i-col span="4" class="OptionItem-icon">
+                                    <i-col span="4" class="editarea--editItem--OptionItem--input-icon">
                                         <span class="removeIcon" @click="RemoveOption(index)">
                                             <Icon type="md-remove" />
                                         </span>
@@ -38,9 +38,9 @@
                     </Row>
                 </div>
                 <!-- 必填项 -->
-                <div class="item" v-if="hasRequired">
+                <div class="editarea--editItem" v-if="hasRequired">
                     <Row>
-                        <div class="label">是否是必填项</div>
+                        <div class="editarea--editItem--label">是否是必填项</div>
                     </Row>
                     <Row>
                         <RadioGroup v-model="ItemData.required" vertical>
@@ -50,9 +50,9 @@
                     </Row>
                 </div>
                 <!-- 上传图片修改图片 -->
-                <div class="item" v-if="ItemData.type === 'image'">
+                <div class="editarea--editItem" v-if="ItemData.type === 'image'">
                     <Row>
-                        <div class="label">修改图片</div>
+                        <div class="editarea--editItem--label">修改图片</div>
                     </Row>
                     <Row>
                         <Upload type="drag" 
@@ -68,16 +68,16 @@
                     </Row>
                 </div>
                 <!-- 有text的部分-->
-                <div class="item" v-if="hasText">
+                <div class="editarea--editItem" v-if="hasText">
                     <Row>
-                        <div class="label">提示文字</div>
+                        <div class="editarea--editItem--label">提示文字</div>
                     </Row>
                     <Row>
                         <i-input v-model="ItemData.text" type="textarea"></i-input>
                     </Row>
                 </div>
             </div>
-            <div class="editBtn">
+            <div class="editarea--editBtn">
                 <Button @click="handleDelete" type="error">删除</Button>
                 <Button @click="handleSave" type="success">保存</Button>
                 <Button @click="handleCancel" type="primary">取消</Button>
@@ -173,7 +173,7 @@ export default {
 }
 </script>
 <style scoped>
-.edit{
+/* .edit{
     flex:1 1 20%;
 }
 .editTitle{
@@ -223,5 +223,5 @@ export default {
     display: flex;
     justify-content: space-around;
     align-items: center;
-}
+} */
 </style>

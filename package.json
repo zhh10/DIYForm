@@ -11,6 +11,8 @@
   "dependencies": {
     "core-js": "^3.6.5",
     "lodash": "^4.17.20",
+    "sass": "^1.27.0",
+    "sass-loader": "^10.0.3",
     "view-design": "^4.3.2",
     "vue": "^2.6.11"
   },
