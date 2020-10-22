@@ -2,7 +2,11 @@
     <div class="wrapper">
         <itemarea ref="item"/>
         <formarea ref="formarea" @edit="editBefore($event)" @reset="editAfter"/>
-        <editarea :ItemData="data" :defaultItemData="defaultData" @Delete="handleDelete" @Cancel="handleCancel" @Save="handleSave"/>
+        <editarea :ItemData="data" :defaultItemData="defaultData" 
+        @Delete="handleDelete" 
+        @Cancel="handleCancel" 
+        @Save="handleSave"
+        @uploadImage="uploadImage"/>
     </div>
 </template>
 
@@ -29,6 +33,8 @@ export default {
             // const index = this.$refs.formarea.itemArr.findIndex(item => item.id === this.$refs.formarea.EditId) 
             const id = this.defaultData.id 
             const index = this.$refs.formarea.itemArr.findIndex(item => item.id === id) 
+            // 撤销操作时保留用户上传的图片
+            this.$refs.formarea.itemArr[index].imgAddress ? this.defaultData.imgAddress = this.$refs.itemArr[index].imgAddress : null
             this.$set(this.$refs.formarea.itemArr,index,this.defaultData)
         }
         const index = this.$refs.formarea.itemArr.findIndex(item => item.id === id)
@@ -61,6 +67,25 @@ export default {
        this.$set(this.$refs.formarea.itemArr,index,data) 
        this.editAfter() 
      },
+     // 图片上传处理函数
+     uploadImage(val){
+       this.$refs.formarea.loading = true
+       if(val === 'success'){
+          for(let dom of this.$refs.formarea.$refs.image){
+              dom.onload = ()=>{
+                setTimeout(()=>{
+                  this.$refs.formarea.loading = false
+                  this.$Message.success('图片上传成功');
+                },1500)
+              }
+          }
+       }else{
+         setTimeout(()=>{
+           this.$refs.formarea.loading = false 
+           this.$Message.error('图片上传出错了')
+         },1500)
+       }
+     }
   }
 }
 </script>

@@ -2,34 +2,39 @@
     flex:1 1 60%;
     height:100%;
     background-color: whitesmoke;
+    position: relative;
 
-    @at-root #{&}--BtnGroup{
+    @at-root #{&}--header{
         height:5%;
         background-color: #2d8cf0;
         color:#fff;
+        display:flex;
+        align-items: center;
+        justify-content: space-between;
         border-left:1px solid #fff;
         border-right:1px solid #fff;
-        text-align:center;
-        position: relative;
-        
+        padding:5px 20px;
+
+        @at-root #{&}--title{
+            font-size:20px;
+        }
+    }
+
+    @at-root #{&}--BtnGroup{
         @at-root #{&}--btn{
-            position: absolute;
-            top:50%;
-            transform: translateY(-50%);
-            &.save{
-                right:10px;
-            }
             &.reset{
-                right:70px;
+                margin-right:10px;
             }
         }
     }
+
     @at-root #{&}--Main{
         height:95%;
         overflow:auto;
 
         &.active{
             border:2px solid red;
+            opacity: .5;
         }
     }
     @at-root #{&}--ItemEdit{
@@ -59,17 +64,22 @@
         @at-root #{&}--component{
             margin-top:6px;
         }
+        @at-root #{&}--title{
+            text-align: center;
+            font-size:25px;
+            font-weight:700;
+        }
+        @at-root #{&}--subTitle{
+            text-align: center;
+            font-size:20px;
+            font-weight:500,
+        }
+        @at-root #{&}--image{
+            width:100%;
+            height:100%;
+        }
     }
-    @at-root #{&}--title{
-        text-align: center;
-        font-size:25px;
-        font-weight:700;
-    }
-    @at-root #{&}--subTitle{
-        text-align: center;
-        font-size:20px;
-        font-weight:500,
-    }
+    
     @at-root #{&}--submitBtn{
         width:100%;
         height:8%;

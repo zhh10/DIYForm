@@ -2,11 +2,4 @@
     height:100%;
     display:flex;
 
-    @at-root #{&}--formarea{
-        flex:1 1 80%;
-        background-color: whitesmoke;
-    }
-    @at-root #{&}--active{
-        border:2px solid red;
-    }
 }

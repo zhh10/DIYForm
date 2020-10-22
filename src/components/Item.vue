@@ -46,7 +46,7 @@ export default {
             const element = e.target 
             const type = element.getAttribute('type')                                                                              //类型
             const options = element.getAttribute('options') ? JSON.parse(element.getAttribute('options').split(',')) : null        //子选项
-            const required = element.getAttribute('required') ? String(Boolean(element.getAttribute('required'))) : null           //必填项
+            const required = element.getAttribute('required') ? String(Boolean(element.getAttribute('required'))) : String(false)  //必填项 默认非必填
             const text = element.getAttribute('text')                                                                              //文本
             const imgAddress = element.getAttribute('imgAddress')                                                                  //图片地址
             const name = element.innerText                                                                                         //名称
@@ -66,29 +66,3 @@ export default {
     }
 }
 </script>
-<style scoped> 
-/* .itemarea{
-    flex:1 1 20%;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-.item{
-    width:100px;
-    height:50px;
-    margin:20px 20px 10px 20px;
-    line-height: 50px;
-    text-align: center;
-    display: inline-block;
-    border:1px solid #000;
-}
-.itemTitle{
-    height:5%;
-    display: flex;
-    align-items: center;
-    background-color:#2d8cf0;
-    color:#fff;
-    font-size:20px;
-    padding:5px 0;
-    padding-left:20px;
-} */
-</style>

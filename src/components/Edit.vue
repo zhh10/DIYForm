@@ -59,7 +59,8 @@
                                 action="http://oss.cepreicloud.com/bucket/upload" 
                                 :format="['jpg','jpeg','png']"
                                 :show-upload-list="false"
-                                :on-success="uploadSuccess">
+                                :on-success="uploadSuccess"
+                                :on-error="uploadError">
                             <div style="padding:20px 0">
                                 <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
                                 <p>上传图片修改背景图</p>
@@ -154,10 +155,15 @@ export default {
             }
             return true
         },
+        // 图片上传成功
         uploadSuccess(response){
-            console.log(123)
-            const url = response.data 
+            const url = response.data
+            this.$emit('uploadImage','success')
             this.ItemData.imgAddress = url
+        },
+        // 图片上传失败
+        uploadError(){
+            this.$emit('uploadImage','error')
         },
         message(type,content){
             switch(type){
@@ -172,56 +178,3 @@ export default {
     }
 }
 </script>
-<style scoped>
-/* .edit{
-    flex:1 1 20%;
-}
-.editTitle{
-    height:5%;
-    display: flex;
-    align-items: center;
-    background-color:#2d8cf0;
-    color:#fff;
-    font-size:20x;
-    padding:5px 0;
-    padding-left:20px;
-}
-.editMain{
-    height:85%;
-    overflow:auto;
-}
-.item{
-    padding:12px 30px;
-}
-.label{
-    font-size:18px;
-    font-weight: 700;
-}
-.OptionItem{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.OptionItem-input{
-    margin:10px 0;
-}
-.OptionItem-icon{
-    margin:10px 0;
-    text-align: center;
-}
-.removeIcon{
-    cursor: pointer;
-    color:#2d8cf0;
-    margin-left:10px;
-    width:15px;
-    height:32px;
-    line-height: 32px;
-}
-.editBtn{
-    height:10%;
-    width:100%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-} */
-</style>

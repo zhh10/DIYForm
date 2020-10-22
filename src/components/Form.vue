@@ -1,8 +1,11 @@
 <template>
     <div class="formarea" >
-        <div class="formarea--BtnGroup">
-            <Button size="small" class="formarea--BtnGroup--btn save" type="success">保存</Button>
-            <Button size="small" class="formarea--BtnGroup--btn reset" type="error" @click="ResetForm">重置</Button>
+        <div class="formarea--header">
+            <div class="formarea--header--title">表单编辑区域</div>
+            <div class="formarea--BtnGroup">
+                <Button size="small" class="formarea--BtnGroup--btn reset" type="error" @click="ResetForm">重置</Button>
+                <Button size="small" class="formarea--BtnGroup--btn save" type="success">保存</Button>
+            </div>
         </div>
         <div  class="formarea--Main" :class="{'active':inner}" @dragover.prevent @dragenter="onDragEnter" @dragleave="onDragLeave" @drop="onDrop">
             <div ref="domList">
@@ -41,7 +44,7 @@
                                     </template>
                                     <!-- 图片 -->
                                     <template v-if="item.type === 'image'">
-                                        <img :src="item.imgAddress" alt="" class="formarea--Item--image" draggable=false>
+                                        <img  ref="image" :src="item.imgAddress" alt="" class="formarea--Item--image" draggable=false>
                                     </template>
                                     <!-- 标题 -->
                                     <template v-if="item.type === 'title'" >
@@ -62,16 +65,19 @@
                 <span v-else >{{btnText}}</span>
             </Button>
             <!-- 底部提示文字 -->
-            <div class="formarea--tip" v-if="hasFootTip" @click="handleEdit(hasFootTip.id)" :class="{'itemEdit':EditId === hasFootTip.id}">
+            <div class="formarea--tip" v-if="hasFootTip" @click="handleEdit(hasFootTip.id)" :class="{'formarea--ItemEdit':EditId === hasFootTip.id}">
                 <div>{{hasFootTip.text}}</div>
             </div>
             <!-- 底部文字 -->
-            <div class="formarea--foot" v-if="hasFoot" @click="handleEdit(hasFoot.id)" :class="{'itemEdit':EditId === hasFoot.id}">
+            <div class="formarea--foot" v-if="hasFoot" @click="handleEdit(hasFoot.id)" :class="{'formarea--ItemEdit':EditId === hasFoot.id}">
                 <span>{{hasFoot.text}}</span>
             </div>
         </div>
+        <Spin fix v-if="loading">
+            <Icon type="ios-loading" size=30 class="demo-spin-icon-load"></Icon>
+            <div>图片上传中</div>
+        </Spin>
     </div>
-    
 </template>
 <script>
 export default {
@@ -89,6 +95,7 @@ export default {
             btnText:'提交',//默认提交按钮文字
             isEditBtnText:false,
             Lock:false,
+            loading:false,
         }
     },
     computed:{
@@ -111,7 +118,7 @@ export default {
             }else{
                 return this.itemArr[index]
             }
-        }
+        },
     },
     methods:{
         onDragEnter(){
@@ -141,7 +148,6 @@ export default {
             let order = domList.map(item => this.children.findIndex(i => i === item))
             let newData = [] 
             order.forEach((item,index)=>{
-                console.log(item,index)
                 newData[index] = this.newitemArr[item]
             })
             this.hasFootTip ? newData.push(this.hasFootTip) : null
@@ -155,7 +161,6 @@ export default {
             if(obj){
                 obj = JSON.parse(obj)
                 obj.id = Math.random().toString(16).substr(2,4)//生成4位随机数
-                // obj.id = new Date().getTime() 
                 this.itemArr.push(obj)
             }
         },
@@ -213,100 +218,29 @@ export default {
             this.itemArr = []
             this.$emit('reset')
         }
-    },
+    }, 
+    // updated(){
+    //     if(this.$refs.image){
+    //         console.log(this.$refs.image[0].src)
+    //         this.$refs.image[0].onload = function(){
+    //             console.log(123)
+    //         }
+    //     }
+    // }
 }
 </script>
-<style scoped>
-/* .formarea{
-    flex:1 1 60%;
-    height:100%;
-    /* overflow:auto; */
-/* }
-.save{
-    height:5%;
-    background-color:#2d8cf0;
-    color:#fff;
-    border-left:1px solid #fff;
-    border-right:1px solid #fff;
-    text-align:right;
+<style  scoped>
+.demo-spin-icon-load{
+    animation: ani-demo-spin 1s linear infinite;
+}
+@keyframes ani-demo-spin {
+    from { transform: rotate(0deg);}
+    50%  { transform: rotate(180deg);}
+    to   { transform: rotate(360deg);}
+}
+.demo-spin-col{
+    height: 100px;
     position: relative;
+    border: 1px solid #eee;
 }
-.saveBtn,.saveCancel{
-    position:absolute;
-    top:50%;
-    transform: translateY(-50%);
-}
-.saveBtn{
-    right:10px;
-}
-.saveCancel{
-    right:70px;
-}
-.formarea-Main{ */
-    /* padding:20px;
-    height:92%;
-    overflow: auto; */
-    /* height:95%;
-    overflow:auto;
-}
-.active{
-    border:2px solid red;
-}
-.item{ */
-    /* margin:10px 0;
-    padding:10px; */
-    /* padding:30px 12px;
-    margin-bottom: 10px; */
-    /* display: flex; */
-/* }
-.item:hover{
-    opacity: .5;
-    border: 2px solid #000;
-}
-.itemEdit{
-    background-color: rgba(255,255,255,.3);
-    border-style:dashed; 
-}
-.label{
-    line-height:1.4;
-    font-size:1rem;
-    font-weight:normal;
-    color:#000;
-}
-.required{
-    color:#ed4014;
-}
-.component{
-    margin-top:6px;
-}
-.image{
-    width:100%;
-    height:100%;
-}
-.title{
-    text-align: center;
-    font-size:25px;
-    font-weight:700;
-}
-.sub-title{
-    text-align: center;
-    font-size:20px;
-    font-weight:500,
-}
-.submit-Btn{
-    width:100%;
-    height:8%;
-    font-size:20px;
-}
-.tip{
-    line-height: 1.4;
-    font-weight: normal;
-    color: #666666;
-    padding:5px 10px;
-    text-align: center;
-}
-.foot{
-    margin-top: 20px;
-    text-align:center;
-}  */
 </style>
