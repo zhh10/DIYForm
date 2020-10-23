@@ -1,7 +1,10 @@
 <template>
     <div class="formarea" >
         <div class="formarea--header">
-            <div class="formarea--header--title">表单编辑区域</div>
+            <div class="formarea--header--title">
+                <img class="formarea--header--title--icon" src="@/assets/img/editForm.png" alt="">
+                表单编辑区域
+            </div>
             <div class="formarea--BtnGroup">
                 <Button size="small" class="formarea--BtnGroup--btn reset" type="error" @click="ResetForm">重置</Button>
                 <Button size="small" class="formarea--BtnGroup--btn save" type="success">保存</Button>
@@ -24,11 +27,12 @@
                             <i-col span="24">
                                 <!-- 输入框 -->
                                     <template v-if="item.type === 'input'">
-                                        <i-input></i-input>
+                                        <i-input v-if="item.inpType === 'tel'" type="tel" ></i-input>
+                                        <i-input v-else ></i-input>
                                     </template>
                                     <!-- 单选框 -->
                                     <template v-if="item.type === 'radio'">
-                                        <RadioGroup>
+                                        <RadioGroup vertical=true>
                                             <template v-for="(option,index) in item.options">
                                                 <Radio :label="option.key" :key="index"></Radio>
                                             </template>
@@ -41,6 +45,10 @@
                                                 <Checkbox :label="option.key" :key="index"></Checkbox>
                                             </template>
                                         </checkboxGroup>
+                                    </template>
+                                    <!-- 日期选择 -->
+                                    <template v-if="item.type === 'dateSelect'">
+                                        <DatePicker style="width:40%;" size="large" type="date" :placeholder="item.text" ></DatePicker>
                                     </template>
                                     <!-- 图片 -->
                                     <template v-if="item.type === 'image'">
@@ -60,10 +68,13 @@
                 </template>
             </div>
             <!-- 提交按钮 -->
-            <Button class="formarea--submitBtn" type="primary" v-if="itemArr.length >= 1" @click="editBtnText($event)">
-                <i-input v-if="isEditBtnText" v-model="btnText" @on-blur="editBtnText($event)"  @on-enter="editEnterKey" ref="SubmitBtn" size="large"></i-input>
-                <span v-else >{{btnText}}</span>
-            </Button>
+            <div class="formarea--submitBtn">
+                <Button style="width:100%;" type="primary" v-if="itemArr.length >= 1" @click="editBtnText($event)">
+                    <i-input v-if="isEditBtnText" v-model="btnText" @on-blur="editBtnText($event)"  @on-enter="editEnterKey" ref="SubmitBtn"></i-input>
+                    <span v-else>{{btnText}}</span>
+                    
+                </Button>
+            </div>
             <!-- 底部提示文字 -->
             <div class="formarea--tip" v-if="hasFootTip" @click="handleEdit(hasFootTip.id)" :class="{'formarea--ItemEdit':EditId === hasFootTip.id}">
                 <div>{{hasFootTip.text}}</div>
@@ -74,8 +85,8 @@
             </div>
         </div>
         <Spin fix v-if="loading">
-            <Icon type="ios-loading" size="large" class="demo-spin-icon-load"></Icon>
-            <div>图片上传中</div>
+            <Icon type="ios-loading" size=40 class="demo-spin-icon-load"></Icon>
+            <div style="font-size:25px">图片上传中</div>
         </Spin>
     </div>
 </template>

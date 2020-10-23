@@ -1,6 +1,9 @@
 <template>
     <div class="editarea">
-        <div class='editarea--title'>设置/编辑</div>
+        <div class='editarea--title'>
+            <img class="editarea--title--icon" src="@/assets/img/edit.png" alt="">
+            设置/编辑
+        </div>
         <template v-if="ItemData"> 
             <div class="editarea--editContent">
                 <!-- 选项名 -->
@@ -105,7 +108,7 @@ export default {
             return needOption
         },
         hasText(){
-            const hasText = this.ItemData.type === 'foot-tip' || this.ItemData.type === 'foot' || this.ItemData.type === 'title' || this.ItemData.type === 'sub-title'
+            const hasText = this.ItemData.type === 'foot-tip' || this.ItemData.type === 'foot' || this.ItemData.type === 'title' || this.ItemData.type === 'sub-title' || this.ItemData.type === 'dateSelect'
             return hasText
         },
         hasRequired(){
@@ -116,8 +119,12 @@ export default {
             let text 
             if(this.ItemData.type === 'foot-tip' || this.ItemData.type === 'foot'){
                 text = "提示文字"
-            }else if(this.ItemData.type === 'title' || this.ItemData.type === 'sub-title'){
+            }else if(this.ItemData.type === 'title'){
                 text = '标题'
+            }else if(this.ItemData.type === 'sub-title'){
+                text = '编辑文本描述'
+            }else if(this.ItemData.type === 'dateSelect'){
+                text = '占位文本'
             }
             return text
         }

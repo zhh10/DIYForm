@@ -2,15 +2,7 @@
     flex:1 1 20%;
     flex-wrap:wrap;
     justify-content: center;
-    @at-root #{&}--item{
-        width:100px;
-        height:50px;
-        margin:20px 20px 10px 20px;
-        line-height:50px;
-        text-align:center;
-        display: inline-block;
-        border:1px solid #000;
-    }   
+  
     @at-root #{&}--title{
         height:5%;
         display:flex;
@@ -19,6 +11,48 @@
         color:#fff;
         font-size:20px;
         padding:5px 0;
-        padding-left:20px;
+        padding-left:10px;
+
+        @at-root #{&}--icon{
+            width:20px;
+            height:20px;
+            margin-right:10px;
+        }
     }
+    @at-root #{&}--content{
+        width:95%;
+        margin:10px auto;
+        padding:10px;
+
+    }
+    @at-root #{&}--subTitle{
+        font-size:18px;
+        color:#aaa;
+        display: flex;
+        align-items: center;
+
+        @at-root #{&}--icon{
+            width:18px;
+            height:18px;
+            margin-right:10px;
+        }
+    }
+    @at-root #{&}--item{
+        width:calc(100%/3);
+        // height:50px;
+        // line-height:50px;
+        text-align:center;
+        display: inline-block;
+        @at-root #{&}--layout{
+            display: flex;
+            flex-direction:column;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        @at-root #{&}--icon{
+            width:30%;
+            height:30%;
+            margin:5px 0;
+        }   
+    }   
 }
