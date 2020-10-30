@@ -15,6 +15,18 @@
                         <i-input v-model="ItemData.name"></i-input>
                     </Row>
                 </div>
+                <!-- 输入框的类型 -->
+                <div class="editarea--editItem" v-if="ItemData.type === 'input'">
+                    <Row>
+                        <div class="editarea--editItem--label">输入框类型</div>
+                    </Row>
+                    <Row>
+                        <Select v-model="ItemData.inpType">
+                            <Option value="text">文本输入框</Option>
+                            <Option value="tel">数字输入框</Option>
+                        </Select>
+                    </Row>
+                </div>
                 <!-- 子选项 -->
                 <div class="editarea--editItem" v-if="needOption">
                     <Row>
@@ -104,7 +116,7 @@ export default {
             return noName
         },
         needOption(){
-            const needOption = this.ItemData.type === 'radio' || this.ItemData.type === 'checkbox' ? true : false 
+            const needOption = this.ItemData.type === 'radio' || this.ItemData.type === 'checkbox' || this.ItemData.type === 'Select'? true : false 
             return needOption
         },
         hasText(){
@@ -112,7 +124,7 @@ export default {
             return hasText
         },
         hasRequired(){
-            const hasRequired = this.ItemData.type === 'input' || this.ItemData.type === 'checkbox' || this.ItemData.type === 'radio'
+            const hasRequired = this.ItemData !== 'foot-tip' && this.ItemData.type !== 'foot' && this.ItemData.type !== 'title' && this.ItemData.type !== 'sub-title' && this.ItemData.type !== 'image'
             return hasRequired
         },
         Text(){
@@ -129,6 +141,19 @@ export default {
             return text
         }
     },
+    watch:{
+        'ItemData.inpType':{
+            handler:function(newval,oldval){
+               if(newval !== oldval){
+                    if(newval === 'text' && this.ItemData.name === '数字输入框'){
+                        this.ItemData.name === '文本输入框'
+                    }else if(newval === 'tel' && this.ItemData.name === '文本输入框'){
+                        this.ItemData.name === '数字输入框'
+                    }
+               }
+            }
+        }
+    },
     methods:{
         // 删除
         handleDelete(){
@@ -140,7 +165,8 @@ export default {
         },
         // 保存
         handleSave(){
-            if(this.ItemData.type === 'radio' || this.ItemData.type === 'checkbox'){
+            // 如果有子选项的，就进行此操作
+            if(this.needOption){
                 this.ItemData.options.forEach(item => {
                     item.value = item.key
                 })

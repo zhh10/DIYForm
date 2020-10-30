@@ -27,12 +27,12 @@
                             <i-col span="24">
                                 <!-- 输入框 -->
                                     <template v-if="item.type === 'input'">
-                                        <i-input v-if="item.inpType === 'tel'" type="tel" ></i-input>
-                                        <i-input v-else ></i-input>
+                                        <Input v-if="item.inpType === 'tel'" type="tel" :prefix="item.prefix"/> 
+                                        <Input v-else :prefix="item.prefix"/>
                                     </template>
                                     <!-- 单选框 -->
                                     <template v-if="item.type === 'radio'">
-                                        <RadioGroup vertical=true>
+                                        <RadioGroup>
                                             <template v-for="(option,index) in item.options">
                                                 <Radio :label="option.key" :key="index"></Radio>
                                             </template>
@@ -49,6 +49,14 @@
                                     <!-- 日期选择 -->
                                     <template v-if="item.type === 'dateSelect'">
                                         <DatePicker style="width:40%;" size="large" type="date" :placeholder="item.text" ></DatePicker>
+                                    </template>
+                                    <!-- 下拉框 -->
+                                    <template v-if="item.type === 'Select'">
+                                        <Select style="width:40%" :prefix="item.prefix">
+                                            <template v-for="(option,index) in item.options">
+                                                <Option :value="option.key" :key="index">{{option.key}}</Option>
+                                            </template>
+                                        </Select>
                                     </template>
                                     <!-- 图片 -->
                                     <template v-if="item.type === 'image'">

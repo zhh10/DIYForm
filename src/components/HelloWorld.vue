@@ -34,7 +34,7 @@ export default {
             const id = this.defaultData.id 
             const index = this.$refs.formarea.itemArr.findIndex(item => item.id === id) 
             // 撤销操作时保留用户上传的图片
-            this.$refs.formarea.itemArr[index].imgAddress ? this.defaultData.imgAddress = this.$refs.itemArr[index].imgAddress : null
+            this.$refs.formarea.itemArr[index].imgAddress ? this.defaultData.imgAddress = this.$refs.formarea.itemArr[index].imgAddress : null
             this.$set(this.$refs.formarea.itemArr,index,this.defaultData)
         }
         const index = this.$refs.formarea.itemArr.findIndex(item => item.id === id)
