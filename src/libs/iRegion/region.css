@@ -1,0 +1,15 @@
+/*! Copyright © 2020 北京视图更新科技有限公司 | https://pro.iviewui.com */
+/*! Version 1.0.0 */
+/*!
+行政区域选择组件使用协议：
+北京视图更新科技有限公司版权所有 (c) 2019-至今
+使用行政区域选择组件，必须遵守以下协议：
+1. 购买者可将授权后的产品用于任意符合国家法律法规的应用平台。
+2. 购买的物料产品仅限于被授权主体（个人、企业或组织）使用，不能给其它主体（个人、企业或组织）使用。
+3. 授权者务必尊重知识产权，严格保证不恶意传播产品源码、不得直接对授权的产品本身进行二次转售或倒卖、不得对授权的产品进行简单包装后声称为自己的产品等。否则我们有权利收回产品授权，并根据事态轻重追究相应法律责任。
+4. 行政区域选择组件一旦购买，不支持退款。
+5. 我们有义务为授权者提供有效期内的产品下载、更新和维护。
+6. 我们有义务为授权者在规定期间内提供免费的产品技术支持以及额外付费的技术支持、技术顾问、定制化需求、线下课程辅导等。免费的技术支持提供在线工单、QQ、微信的技术支持，不包含远程服务。
+7. 本协议及本协议任何条款内容的最终解释权及修改权归北京视图更新科技有限公司所有。
+*/
+.i-region .ivu-dropdown{width:100%}.i-region-transfer{width:540px}.i-region-rel{display:inline-block;width:100%;position:relative}.i-region .ivu-input{padding-right:24px;display:block;cursor:pointer}.i-region-disabled .ivu-input{cursor:not-allowed}.i-region .i-region-arrow:nth-of-type(1){display:none;cursor:pointer}.i-region:hover .i-region-arrow:nth-of-type(1){display:inline-block}.i-region-show-clear:hover .i-region-arrow:nth-of-type(2){display:none}.i-region-arrow{position:absolute;top:50%;right:8px;line-height:1;transform:translateY(-50%);font-size:14px;color:#808695;transition:all .2s ease-in-out}.i-region-visible .i-region-arrow:nth-of-type(2){transform:translateY(-50%) rotate(180deg)}.i-region-drop-main{width:540px;min-height:200px;column-count:4;padding:0 16px 8px}.i-region-drop-main-item{break-inside:avoid;padding:2px;cursor:pointer;transition:color .2s ease-in-out}.i-region-drop-main-item:hover{color:#2d8cf0}

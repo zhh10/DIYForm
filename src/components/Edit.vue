@@ -52,6 +52,15 @@
                         </template>
                     </Row>
                 </div>
+                <!-- 有text的部分-->
+                <div class="editarea--editItem" v-if="hasText">
+                    <Row>
+                        <div class="editarea--editItem--label">{{Text}}</div>
+                    </Row>
+                    <Row>
+                        <i-input v-model="ItemData.text" type="textarea"></i-input>
+                    </Row>
+                </div>
                 <!-- 必填项 -->
                 <div class="editarea--editItem" v-if="hasRequired">
                     <Row>
@@ -83,15 +92,6 @@
                         </Upload>
                     </Row>
                 </div>
-                <!-- 有text的部分-->
-                <div class="editarea--editItem" v-if="hasText">
-                    <Row>
-                        <div class="editarea--editItem--label">{{Text}}</div>
-                    </Row>
-                    <Row>
-                        <i-input v-model="ItemData.text" type="textarea"></i-input>
-                    </Row>
-                </div>
             </div>
             <div class="editarea--editBtn">
                 <Button @click="handleDelete" type="error">删除</Button>
@@ -120,7 +120,7 @@ export default {
             return needOption
         },
         hasText(){
-            const hasText = this.ItemData.type === 'foot-tip' || this.ItemData.type === 'foot' || this.ItemData.type === 'title' || this.ItemData.type === 'sub-title' || this.ItemData.type === 'dateSelect'
+            const hasText = this.ItemData.type === 'foot-tip' || this.ItemData.type === 'foot' || this.ItemData.type === 'title' || this.ItemData.type === 'sub-title' || this.ItemData.type === 'dateSelect' || this.ItemData.type === 'input'
             return hasText
         },
         hasRequired(){
@@ -135,7 +135,7 @@ export default {
                 text = '标题'
             }else if(this.ItemData.type === 'sub-title'){
                 text = '编辑文本描述'
-            }else if(this.ItemData.type === 'dateSelect'){
+            }else if(this.ItemData.type === 'dateSelect' || this.ItemData.type === 'input'){
                 text = '占位文本'
             }
             return text

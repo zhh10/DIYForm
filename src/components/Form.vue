@@ -4,10 +4,12 @@
             <div class="formarea--header--title">
                 <img class="formarea--header--title--icon" src="@/assets/img/editForm.png" alt="">
                 表单编辑区域
+                <Icon type="ios-add-circle" />
+                <Icon custom="i-icon-bumen" />
             </div>
             <div class="formarea--BtnGroup">
                 <Button size="small" class="formarea--BtnGroup--btn reset" type="error" @click="ResetForm">重置</Button>
-                <Button size="small" class="formarea--BtnGroup--btn save" type="success">保存</Button>
+                <Button size="small" class="formarea--BtnGroup--btn save" type="success" @click="SaveForm">保存</Button>
             </div>
         </div>
         <div  class="formarea--Main" :class="{'active':inner}" @dragover.prevent @dragenter="onDragEnter" @dragleave="onDragLeave" @drop="onDrop">
@@ -25,10 +27,16 @@
                         </Row>
                         <Row class="formarea--Item--component">
                             <i-col span="24">
-                                <!-- 输入框 -->
-                                    <template v-if="item.type === 'input'">
-                                        <Input v-if="item.inpType === 'tel'" type="tel" :prefix="item.prefix"/> 
-                                        <Input v-else :prefix="item.prefix"/>
+                                    <!-- 输入框 -->
+                                    <!-- 带icon -->
+                                    <template v-if="item.type === 'input' && item.prefix">
+                                        <Input v-show="item.inpType === 'tel'" type="tel" :prefix="item.prefix" style="width:70%" :placeholder="item.text"/> 
+                                        <Input v-show="item.inpType === 'text'" :prefix="item.prefix" style="width:70%" :placeholder="item.text"/>
+                                    </template>
+                                    <!-- 不带icon -->
+                                    <template v-if="item.type === 'input' && !item.prefix">
+                                        <Input v-show="item.inpType === 'tel'" type="tel"  style="width:70%" :placeholder="item.text"/> 
+                                        <Input v-show="item.inpType === 'text'"  style="width:70%" :placeholder="item.text"/>
                                     </template>
                                     <!-- 单选框 -->
                                     <template v-if="item.type === 'radio'">
@@ -57,6 +65,10 @@
                                                 <Option :value="option.key" :key="index">{{option.key}}</Option>
                                             </template>
                                         </Select>
+                                    </template>
+                                    <!-- 所在地选择 -->
+                                    <template v-if="item.type === 'region'">
+                                         <i-region style="width:40%"  placeholder='请选择省市区'></i-region>
                                     </template>
                                     <!-- 图片 -->
                                     <template v-if="item.type === 'image'">
@@ -149,10 +161,12 @@ export default {
         onItemDragStart(e){
             this.children = [...this.$refs.domList.children]
             this.formDom = e.target 
-            this.formDom.style.opacity = 0.3
+            // this.formDom.style.opacity = 1
         },
         onItemDragEnter(e){
             this.toDom = e.target
+            console.log(this.formDom)
+            console.log(this.toDom)
             if(this.formDom && this.toDom){
                 if(this.isPrevious(this.formDom,this.toDom)){
                     this.$refs.domList.insertBefore(this.formDom,this.toDom)
@@ -162,7 +176,7 @@ export default {
             }
         },
         onItemDragEnd(){
-            this.formDom.style.opacity = 1 
+            // this.formDom.style.opacity = 1 
             let domList = [...this.$refs.domList.children]
             let order = domList.map(item => this.children.findIndex(i => i === item))
             let newData = [] 
@@ -236,6 +250,9 @@ export default {
         ResetForm(){
             this.itemArr = []
             this.$emit('reset')
+        },
+        SaveForm(){
+            console.log(this.itemArr)
         }
     }, 
 }

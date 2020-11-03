@@ -1,8 +1,15 @@
 .Itemarea{
-    flex:1 1 20%;
+    flex:0 0 20%;
     flex-wrap:wrap;
     justify-content: center;
-  
+    position: relative;
+    left:0;
+
+    @at-root #{&}--main{
+        overflow:auto;
+        height:95%;
+    }
+
     @at-root #{&}--title{
         height:5%;
         display:flex;
@@ -35,6 +42,7 @@
             width:18px;
             height:18px;
             margin-right:10px;
+            vertical-align: text-top;
         }
     }
     @at-root #{&}--item{

@@ -1,0 +1,38 @@
+@font-face {font-family: "iconfont";
+  src: url('iconfont.eot?t=1604388698812'); /* IE9 */
+  src: url('iconfont.eot?t=1604388698812#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAANsAAsAAAAAB5wAAAMfAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDHAqCXIIxATYCJAMQCwoABCAFhG0HQRucBhEVnGHIvjjI5JTv3DK3Bl6QtgrF0b75Hjz/zn3d16T9mXQIWC0Qw/HoAFACybXb0mHfnOuBjYp6OZKzTx59Ie3aQXZp9pCAyPoB8D+X07urxOe3s1zGWjjGpqNegHFAAY29yArkEuQeYwO1290MASyZlCNt2nXpg0Fj9hJApkwcPxKTcaLRfMQgeBUTNbIDF+NsdB4D24Pvy29qxYCDqzAH9hjXdgwtvo34MVWtCDDEQxBOZwP4aaCAckCDTKh0jEJFwXIUVv2NphEwGBz4NuLb+x9TgwBNsGG+9ZcHgsIB8TDTwwGoJyEF30Y4OAS+vceh4MfUNByAD9LdAD4wClhDaPHNNB6io+NdV5uPMMmT/f62VcTZq8l99lywdtOlxH6Hrg8ZfPhykX/2YsrAvQfiq8jZlNhv36G+ffsPsiEvKtRvQbiMlhFOw4WhfravFyGL+4WLNyKSCCzWiVBWIvoGC909Pqt84OPruS1azWy1etqJmEUxJ6ZxXKlRs8mz2/Z8FT0v+lVPzBk+/catWxczL7oxN6a3kvPnrJiZzaaQeshscHCsUdvrhtTqyTbX08bPRC4+N29ebfHI2qY5p/36g2O7dql9wjjqauZyiSmRC1YsiJzy/zIvbrN4WvtDtJsdNqcHAEFOhYVXJ5X7c8hh3/OfN4ZHNflnfA3Ap3vFg7AkoFEr4A0LOwt/hbBjmdbEplFrReII9HRNBR7cU4bFAj8gCrF8nUKV0NkPgskIeXAIkQEKQz6qaeXg4lMPHobmYCmj/XSfOGahEB0GlLIWQIjmOjhEcgcU0TxBNe0LuCTyFzyiRYGln8Qt6EM4ysTDiVEJWtB/CIYGZ5vlEGbe0U+d4rQ4oL+RU/BAmRX5yA0H5CmGpI+vRBw4ph6usB12HcHIFNFI1oiMdZ67qjdlhvrZgROjErSA/gPB0OC86nIofP6OfuoUNxCqnG/kFOoHSjKKDuhNMXQi3Mo16eMrRBzgmHrgCu2w6wgYq9tFNJLRDPCPNblVyXVVZMur+jdcA1jMk7U4okSLy2ZRE74YNp4Gn8JaTz0OsxkA') format('woff2'),
+  url('iconfont.woff?t=1604388698812') format('woff'),
+  url('iconfont.ttf?t=1604388698812') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('iconfont.svg?t=1604388698812#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+/* .i-icon {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+} */
+
+
+.ivu-icon-position,.ivu-icon-company,.ivu-icon-department{
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ivu-icon-position:before {
+  content: "\e660";
+}
+
+.ivu-icon-company:before {
+  content: "\e86d";
+}
+
+.ivu-icon-department:before {
+  content: "\e6d8";
+}
+

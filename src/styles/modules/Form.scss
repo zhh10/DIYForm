@@ -1,5 +1,7 @@
+
+
 .formarea{
-    flex:1 1 60%;
+    flex:1 1;
     height:100%;
     background-color: whitesmoke;
     position: relative;
@@ -42,7 +44,7 @@
 
         &.active{
             border:2px solid red;
-            opacity: .5;
+            opacity: .8;
         }
     }
     @at-root #{&}--ItemEdit{
@@ -57,7 +59,7 @@
         // margin-bottom:10px;
 
         @at-root #{&}:hover{
-            opacity: .5;
+            opacity: 1;
             border:2px solid #000;
         }
         @at-root #{&}--label{
