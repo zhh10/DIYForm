@@ -4,8 +4,6 @@
             <div class="formarea--header--title">
                 <img class="formarea--header--title--icon" src="@/assets/img/editForm.png" alt="">
                 表单编辑区域
-                <Icon type="ios-add-circle" />
-                <Icon custom="i-icon-bumen" />
             </div>
             <div class="formarea--BtnGroup">
                 <Button size="small" class="formarea--BtnGroup--btn reset" type="error" @click="ResetForm">重置</Button>
@@ -14,12 +12,15 @@
         </div>
         <div  class="formarea--Main" :class="{'active':inner}" @dragover.prevent @dragenter="onDragEnter" @dragleave="onDragLeave" @drop="onDrop">
             <div ref="domList">
+                <draggable v-bind="{animation:150}" v-model="newitemArr">
                 <!-- 循环 itemArr -->
-                <template v-for="item in newitemArr">
-                    <div :key="item.id" class="formarea--Item" :class="{'formarea--ItemEdit':EditId === item.id}" @click="handleEdit(item.id)" draggable 
+                <template v-for="item in newitemArr" >
+                    <!-- <div :key="item.id" class="formarea--Item" :class="{'formarea--ItemEdit':EditId === item.id}" @click="handleEdit(item.id)" draggable 
                     @dragstart.stop="onItemDragStart"
                     @dragenter.stop="onItemDragEnter"
-                    @dragend.stop="onItemDragEnd">
+                    @dragend.stop="onItemDragEnd"
+                    > -->
+                      <div :key="item.id" class="formarea--Item" :class="{'formarea--ItemEdit':EditId === item.id}" @click="handleEdit(item.id)" draggable >
                         <Row>
                             <div class="formarea--Item--label" v-if="item.type !== 'image' && item.type !== 'title' && item.type !== 'sub-title'">
                                 <span class="formarea--Item--required" v-if="item.required === 'true'">*</span>{{item.name}}
@@ -86,13 +87,13 @@
                         </Row>
                     </div>  
                 </template>
+                </draggable>
             </div>
             <!-- 提交按钮 -->
             <div class="formarea--submitBtn">
                 <Button style="width:100%;" type="primary" v-if="itemArr.length >= 1" @click="editBtnText($event)">
                     <i-input v-if="isEditBtnText" v-model="btnText" @on-blur="editBtnText($event)"  @on-enter="editEnterKey" ref="SubmitBtn"></i-input>
                     <span v-else>{{btnText}}</span>
-                    
                 </Button>
             </div>
             <!-- 底部提示文字 -->
@@ -111,8 +112,13 @@
     </div>
 </template>
 <script>
+import draggable from "vuedraggable"
+import _ from "lodash"
 export default {
     name:'formarea',
+    components:{
+        draggable
+    },
     data(){
         return {
             inner:false,
@@ -130,9 +136,18 @@ export default {
         }
     },
     computed:{
-        newitemArr(){
+        newitemArr:{
             //  剔除 底部提示文字组件 和 底部文字组件
-            return this.itemArr.filter(item => item.type !== 'foot-tip' && item.type !== 'foot')
+            get(){
+                return this.itemArr.filter(item => item.type !== 'foot-tip' && item.type !== 'foot')
+            },
+            set(val){
+                const newData = val 
+                this.hasFootTip ? newData.push(this.hasFootTip) : null
+                this.hasFoot ? newData.push(this.hasFoot) : null
+                this.itemArr = newData
+            }
+            
         },
         hasFootTip(){
             const index = this.itemArr.findIndex(item => item.type === 'foot-tip')
@@ -252,7 +267,12 @@ export default {
             this.$emit('reset')
         },
         SaveForm(){
-            console.log(this.itemArr)
+            const itemArr = _.cloneDeep(this.itemArr)
+            itemArr.push({
+                type:'button',
+                btnText:this.btnText
+            })
+            console.log(itemArr)
         }
     }, 
 }
