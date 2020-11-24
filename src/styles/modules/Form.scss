@@ -48,8 +48,12 @@
         }
     }
     @at-root #{&}--ItemEdit{
-        background-color: rgba(255,255,255,.3);
-        border-style:dashed; 
+        box-shadow:0 10px 15px 0 rgba(0,0,0,.1);
+        border-radius:4px;
+        border:2px solid #2672ff;
+        outline:none;
+        // background-color: rgba(255,255,255,.3);
+        // border-style:dashed; 
     }
 
     @at-root #{&}--Item{
@@ -59,8 +63,8 @@
         // margin-bottom:10px;
 
         @at-root #{&}:hover{
+            cursor:move;
             opacity: 1;
-            border:2px solid #000;
         }
         @at-root #{&}--label{
 

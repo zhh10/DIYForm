@@ -7,12 +7,12 @@
             </div>
             <div class="formarea--BtnGroup">
                 <Button size="small" class="formarea--BtnGroup--btn reset" type="error" @click="ResetForm">重置</Button>
-                <Button size="small" class="formarea--BtnGroup--btn save" type="success" @click="SaveForm">保存</Button>
+                <Button size="small" class="formarea--BtnGroup--btn save" type="success" @click="saveModalShow = true">保存</Button>
             </div>
         </div>
         <div  class="formarea--Main" :class="{'active':inner}" @dragover.prevent @dragenter="onDragEnter" @dragleave="onDragLeave" @drop="onDrop">
             <div ref="domList">
-                <draggable v-bind="{animation:150}" v-model="newitemArr">
+                <draggable v-bind="{animation:150}" v-model="newitemArr" @start="start" @end="end">
                 <!-- 循环 itemArr -->
                 <template v-for="item in newitemArr" >
                     <!-- <div :key="item.id" class="formarea--Item" :class="{'formarea--ItemEdit':EditId === item.id}" @click="handleEdit(item.id)" draggable 
@@ -109,6 +109,9 @@
             <Icon type="ios-loading" size=40 class="demo-spin-icon-load"></Icon>
             <div style="font-size:25px">图片上传中</div>
         </Spin>
+        <Modal v-model="saveModalShow" title="请给表单起一个名字" :loading="saveModalLoading" @on-cancel="cancelSaveForm" @on-ok="SaveForm">
+            <Input v-model="formName"/>
+        </Modal>
     </div>
 </template>
 <script>
@@ -123,16 +126,15 @@ export default {
         return {
             inner:false,
             itemArr:[],
-            formDom:null,
-            formIndex:null,
-            toDom:null,
-            toIndex:null,
-            children:[],
+            fromDom:null,
             EditId:null,
             btnText:'提交',//默认提交按钮文字
             isEditBtnText:false,
             Lock:false,
             loading:false,
+            saveModalShow:false,
+            formName:null,
+            saveModalLoading:true,
         }
     },
     computed:{
@@ -167,42 +169,51 @@ export default {
         },
     },
     methods:{
+        start(e){
+            let {oldIndex,from} = e 
+            window.e = e
+            this.fromDom = from.querySelectorAll('.formarea--Item')[oldIndex]
+            console.log(this.fromDom)
+            this.fromDom.style = "box-shadow:0 10px 15px 0 rgba(0,0,0,.1);border-radius:4px;border:2px solid #2672ff;outline:none;"
+        },
+        end(){
+            this.fromDom.style = ""
+        },
         onDragEnter(){
             this.inner = true
         },
         onDragLeave(){
             this.inner = false
         },
-        onItemDragStart(e){
-            this.children = [...this.$refs.domList.children]
-            this.formDom = e.target 
-            // this.formDom.style.opacity = 1
-        },
-        onItemDragEnter(e){
-            this.toDom = e.target
-            console.log(this.formDom)
-            console.log(this.toDom)
-            if(this.formDom && this.toDom){
-                if(this.isPrevious(this.formDom,this.toDom)){
-                    this.$refs.domList.insertBefore(this.formDom,this.toDom)
-                }else{
-                    this.$refs.domList.insertBefore(this.formDom,this.toDom.nextElementSibling)
-                }
-            }
-        },
-        onItemDragEnd(){
-            // this.formDom.style.opacity = 1 
-            let domList = [...this.$refs.domList.children]
-            let order = domList.map(item => this.children.findIndex(i => i === item))
-            let newData = [] 
-            order.forEach((item,index)=>{
-                newData[index] = this.newitemArr[item]
-            })
-            this.hasFootTip ? newData.push(this.hasFootTip) : null
-            this.hasFoot ? newData.push(this.hasFoot) : null
-            this.children = domList
-            this.itemArr = newData
-        },
+        // onItemDragStart(e){
+        //     this.children = [...this.$refs.domList.children]
+        //     this.formDom = e.target 
+        //     this.formDom.style.opacity = 1
+        // },
+        // onItemDragEnter(e){
+        //     this.toDom = e.target
+        //     console.log(this.formDom)
+        //     console.log(this.toDom)
+        //     if(this.formDom && this.toDom){
+        //         if(this.isPrevious(this.formDom,this.toDom)){
+        //             this.$refs.domList.insertBefore(this.formDom,this.toDom)
+        //         }else{
+        //             this.$refs.domList.insertBefore(this.formDom,this.toDom.nextElementSibling)
+        //         }
+        //     }
+        // },
+        // onItemDragEnd(){
+        //     let domList = [...this.$refs.domList.children]
+        //     let order = domList.map(item => this.children.findIndex(i => i === item))
+        //     let newData = [] 
+        //     order.forEach((item,index)=>{
+        //         newData[index] = this.newitemArr[item]
+        //     })
+        //     this.hasFootTip ? newData.push(this.hasFootTip) : null
+        //     this.hasFoot ? newData.push(this.hasFoot) : null
+        //     this.children = domList
+        //     this.itemArr = newData
+        // },
         onDrop(e){
             this.inner = false
             let obj = e.dataTransfer.getData('data')
@@ -263,17 +274,52 @@ export default {
         },
         // 重置表单
         ResetForm(){
-            this.itemArr = []
-            this.$emit('reset')
+            this.$Modal.confirm({
+                title:'警告',
+                content:'确定要重置表单吗？',
+                onOk:() => {
+                    this.itemArr = [] 
+                    this.$emit('reset')
+                },
+                onCancel:() => {}
+            })
         },
         SaveForm(){
+            // 验证表单名字是否有填写
+            console.log(this.formName)
+            if(this.formName && this.formName.trim().length > 0){
+                setTimeout(()=>{
+                    this.saveModalLoading = false
+                    this.save()
+                    this.$nextTick(() => {
+                        this.$Message.success('保存成功')
+                        this.saveModalShow = false
+                        this.saveModalLoading = true
+                    })
+                },0)
+            }else{
+                this.$Message.error('表单名未填写或者填写不规范')
+                setTimeout(() => {
+                    this.formName = null
+                    this.saveModalLoading = false
+                    this.$nextTick(() => {
+                        this.saveModalLoading = true
+                    });
+                }, 0);
+            }
+        },
+        save(){
             const itemArr = _.cloneDeep(this.itemArr)
             itemArr.push({
                 type:'button',
                 btnText:this.btnText
             })
             console.log(itemArr)
-        }
+        },
+        cancelSaveForm(){
+            this.saveModalShow = false
+            this.formName = null
+        },
     }, 
 }
 </script>
